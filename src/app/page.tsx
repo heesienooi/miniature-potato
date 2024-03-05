@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { APIProvider } from "@vis.gl/react-google-maps";
-import { Map } from "./Map";
-import List from "./List";
-import { Provider } from "jotai";
+import { APIProvider } from '@vis.gl/react-google-maps';
+import Map from './Map';
+import List from './List';
+import { Provider } from 'jotai';
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 

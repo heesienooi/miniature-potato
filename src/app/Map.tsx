@@ -1,18 +1,15 @@
-"use client";
+'use client';
 
-import { Incident, incidents } from "@/lib/data";
-import { visibleMarkersAtom } from "@/lib/map-atom";
+import { Incident, incidents } from '@/lib/data';
+import { activeMarkerIdAtom, visibleMarkersAtom } from '@/lib/map-atom';
 import {
-  APIProvider,
   AdvancedMarker,
   Map as GoogleMap,
   InfoWindow,
   useAdvancedMarkerRef,
-  useMap,
-} from "@vis.gl/react-google-maps";
-import { useAtom, useSetAtom } from "jotai";
-import { useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
+} from '@vis.gl/react-google-maps';
+import { useAtom, useSetAtom } from 'jotai';
+import { useDebouncedCallback } from 'use-debounce';
 
 const MAP_ID = process.env.NEXT_PUBLIC_MAP_ID as string;
 const MELBOURNE_CENTER = {
@@ -20,22 +17,23 @@ const MELBOURNE_CENTER = {
   lng: 144.9623,
 };
 
-const IncidentMarker = (incident: Incident) => {
+const MarkerWithInfoWindow = ({ incident }: { incident: Incident }) => {
   const { id, alert_type, title, description, lat, long } = incident;
+  const [activeId, setActiveId] = useAtom(activeMarkerIdAtom);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const [infoOpened, setInfoOpened] = useState(false);
 
-  // TODO Fix multi open info window
   return (
     <>
       <AdvancedMarker
         key={id}
         position={{ lat: Number(lat), lng: Number(long) }}
         ref={markerRef}
-        onClick={() => setInfoOpened(true)}
+        onClick={() => {
+          setActiveId(id);
+        }}
       />
-      {infoOpened && (
-        <InfoWindow anchor={marker} onCloseClick={() => setInfoOpened(false)}>
+      {activeId === id && (
+        <InfoWindow anchor={marker} onCloseClick={() => setActiveId(null)}>
           {alert_type}
           <br />
           {title}
@@ -47,12 +45,11 @@ const IncidentMarker = (incident: Incident) => {
   );
 };
 
-export function Map() {
+export default function Map() {
   const setVisibleMarkers = useSetAtom(visibleMarkersAtom);
-  console.log("123");
 
   const updateVisibleMarkers = useDebouncedCallback((map: google.maps.Map) => {
-    console.log("updateVisibleMarkers");
+    console.log('updateVisibleMarkers');
     const bounds = map.getBounds();
     const visibleMarkers = incidents.filter(({ lat, long }) =>
       bounds?.contains({ lat: Number(lat), lng: Number(long) }),
@@ -71,10 +68,9 @@ export function Map() {
         clickableIcons={false}
         onBoundsChanged={(e) => updateVisibleMarkers(e.map)}
       >
-        {incidents.map((incident) => {
-          const { id, alert_type, title, description, lat, long } = incident;
-          return <IncidentMarker key={id} {...incident} />;
-        })}
+        {incidents.map((incident) => (
+          <MarkerWithInfoWindow key={incident.id} incident={incident} />
+        ))}
       </GoogleMap>
     </div>
   );

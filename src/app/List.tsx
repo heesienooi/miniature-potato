@@ -1,14 +1,16 @@
-import { incidents } from "@/lib/data";
-import { visibleMarkersAtom } from "@/lib/map-atom";
-import { useAtomValue } from "jotai";
-import { useEffect, useState } from "react";
+import { visibleMarkersAtom } from '@/lib/map-atom';
+import { useAtomValue } from 'jotai';
 
 export default function List() {
   const incidents = useAtomValue(visibleMarkersAtom);
+
   return (
     <div className="h-screen overflow-auto p-5">
       List
-      {/* <button onClick={() => setCount((v) => v + 1)}>Click</button> */}
+      <div className="text-xs">
+        Showing <span className="font-bold">{incidents.length} incidents</span>{' '}
+        on map
+      </div>
       <ul className="divide-y divide-gray-100">
         {incidents.map((incident) => {
           const { id, alert_type, title } = incident;
