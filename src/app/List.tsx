@@ -1,8 +1,9 @@
-import { visibleMarkersAtom } from '@/lib/map-atom';
-import { useAtomValue } from 'jotai';
+import { activeMarkerIdAtom, visibleMarkersAtom } from '@/lib/map-atom';
+import { useAtomValue, useSetAtom } from 'jotai';
 
 export default function List() {
   const incidents = useAtomValue(visibleMarkersAtom);
+  const setActiveId = useSetAtom(activeMarkerIdAtom);
 
   return (
     <div className="h-screen overflow-auto p-5">
@@ -15,7 +16,11 @@ export default function List() {
         {incidents.map((incident) => {
           const { id, alert_type, title } = incident;
           return (
-            <li key={id} className="flex justify-between gap-x-6 py-5">
+            <li
+              key={id}
+              className="flex justify-between gap-x-6 py-5"
+              onClick={() => setActiveId(id)}
+            >
               <div>
                 <p className="text-sm font-semibold text-gray-900">{title}</p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
