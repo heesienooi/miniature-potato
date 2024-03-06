@@ -28,16 +28,16 @@ export default function List() {
       <div
         className={clsx(
           showList ? 'block' : 'hidden',
-          'fixed bottom-0 z-10 h-screen w-screen  bg-white md:static md:block md:w-auto',
+          'fixed bottom-0 z-10 h-full w-screen overflow-auto bg-white md:static md:block md:h-screen md:w-auto md:overflow-hidden',
         )}
       >
-        <div className="flex h-screen flex-col">
+        <div className="flex h-full flex-col">
           <div className="p-5 text-xs">
             Showing{' '}
             <span className="font-bold">{incidents.length} incidents</span> on
             map
           </div>
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 md:overflow-auto">
             <ul className="divide-y divide-gray-200">
               {incidents.map((incident) => {
                 const { id, alert_type, title } = incident;
