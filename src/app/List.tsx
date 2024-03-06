@@ -17,6 +17,7 @@ export default function List() {
       inline: 'start',
     });
   }, [activeId]);
+
   return (
     <>
       <button

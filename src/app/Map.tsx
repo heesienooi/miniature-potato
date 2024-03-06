@@ -46,7 +46,6 @@ const MarkerWithInfoWindow = ({
   const { id, alert_type, title, description, lat, long } = incident;
   const [activeId, setActiveId] = useAtom(activeMarkerIdAtom);
   const [markerRef, marker] = useAdvancedMarkerRef();
-
   const size = calculateSizeBasedOnZoom(zoom);
 
   return (
