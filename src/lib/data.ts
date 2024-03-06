@@ -1,4 +1,4 @@
-import data from "./incidents.json";
+import data from './incidents.json';
 
 export type Incident = {
   id: number;
@@ -32,3 +32,15 @@ export type Incident = {
 };
 
 export const incidents = data.incidents as Incident[];
+
+export const alertTypeColor = (type: string) => {
+  const colorMap: { [key: string]: string } = {
+    tow_allocation: '#14B8A6',
+    alert: '#F59E0B',
+    emergency: '#EF4444',
+    roadworks: '#6366F1',
+    event: '#EC4899',
+  };
+
+  return colorMap[type] ?? '#6B7280';
+};

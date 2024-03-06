@@ -1,3 +1,4 @@
+import { alertTypeColor } from '@/lib/data';
 import { activeMarkerIdAtom, visibleMarkersAtom } from '@/lib/map-atom';
 import clsx from 'clsx';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -35,7 +36,7 @@ export default function List() {
                 return (
                   <li
                     key={id}
-                    className="p-x 5 flex justify-between gap-x-6 px-5 py-5"
+                    className="p-x 5 flex cursor-pointer justify-between gap-x-6 px-5 py-5"
                     onClick={() => {
                       setActiveId(id);
                       setShowList(false);
@@ -46,6 +47,10 @@ export default function List() {
                         {title}
                       </div>
                       <div className="mt-1 truncate text-xs leading-5 text-gray-600">
+                        <span
+                          className="mr-1 inline-block size-2 rounded opacity-70"
+                          style={{ background: alertTypeColor(alert_type) }}
+                        />
                         {alert_type}
                       </div>
                     </div>
