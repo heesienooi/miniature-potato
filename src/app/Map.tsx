@@ -33,12 +33,16 @@ const MarkerWithInfoWindow = ({ incident }: { incident: Incident }) => {
         }}
       />
       {activeId === id && (
-        <InfoWindow anchor={marker} onCloseClick={() => setActiveId(null)}>
-          {alert_type}
-          <br />
-          {title}
-          <br />
-          {description}
+        <InfoWindow
+          maxWidth={300}
+          anchor={marker}
+          onCloseClick={() => setActiveId(null)}
+        >
+          <div className="text-base font-semibold text-gray-900">{title}</div>
+          <div className="mt truncate text-sm leading-5 text-gray-600">
+            {alert_type}
+          </div>
+          <p className="mt-4 leading-normal text-gray-800">{description}</p>
         </InfoWindow>
       )}
     </>
@@ -49,7 +53,6 @@ export default function Map() {
   const setVisibleMarkers = useSetAtom(visibleMarkersAtom);
 
   const updateVisibleMarkers = useDebouncedCallback((map: google.maps.Map) => {
-    console.log('updateVisibleMarkers');
     const bounds = map.getBounds();
     const visibleMarkers = incidents.filter(({ lat, long }) =>
       bounds?.contains({ lat: Number(lat), lng: Number(long) }),

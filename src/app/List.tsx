@@ -42,12 +42,12 @@ export default function List() {
                     }}
                   >
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">
+                      <div className="text-sm font-semibold text-gray-900">
                         {title}
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      </div>
+                      <div className="mt-1 truncate text-xs leading-5 text-gray-600">
                         {alert_type}
-                      </p>
+                      </div>
                     </div>
                     <svg
                       className="h-6 w-6 fill-current md:h-8 md:w-8"
