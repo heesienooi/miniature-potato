@@ -77,7 +77,11 @@ const MarkerWithInfoWindow = ({
           onCloseClick={() => setActiveId(null)}
         >
           <div className="text-base font-semibold text-gray-900">{title}</div>
-          <div className="mt truncate text-sm leading-5 text-gray-600">
+          <div className="mt-1 truncate text-sm leading-5 text-gray-600">
+            <span
+              className="mr-1 inline-block size-2 rounded-full opacity-70"
+              style={{ background: alertTypeColor(alert_type) }}
+            />
             {alert_type}
           </div>
           <p className="mt-4 leading-normal text-gray-800">{description}</p>

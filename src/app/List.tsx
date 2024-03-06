@@ -63,7 +63,7 @@ export default function List() {
                       </div>
                       <div className="mt-1 truncate text-xs leading-5 text-gray-600">
                         <span
-                          className="mr-1 inline-block size-2 rounded opacity-70"
+                          className="mr-1 inline-block size-2 rounded-full opacity-70"
                           style={{ background: alertTypeColor(alert_type) }}
                         />
                         {alert_type}
