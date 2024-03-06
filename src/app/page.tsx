@@ -11,9 +11,11 @@ export default function Home() {
   return (
     <Provider>
       <APIProvider apiKey={API_KEY}>
-        <main className="grid grid-cols-[300px_1fr]">
-          <List />
-          <Map />
+        <main>
+          <div className="md:grid md:grid-cols-[300px_1fr]">
+            <List />
+            <Map />
+          </div>
         </main>
       </APIProvider>
     </Provider>
