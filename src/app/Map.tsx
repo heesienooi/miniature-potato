@@ -7,9 +7,10 @@ import {
   Map as GoogleMap,
   InfoWindow,
   useAdvancedMarkerRef,
+  useMap,
 } from '@vis.gl/react-google-maps';
 import { useAtom, useSetAtom } from 'jotai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 const MAP_ID = process.env.NEXT_PUBLIC_MAP_ID as string;
@@ -90,6 +91,7 @@ const MarkerWithInfoWindow = ({
 export default function Map() {
   const [zoom, setZoom] = useState<number | undefined>(12);
   const setVisibleMarkers = useSetAtom(visibleMarkersAtom);
+  const map = useMap();
 
   const updateVisibleMarkers = useDebouncedCallback((map: google.maps.Map) => {
     const bounds = map.getBounds();
@@ -102,6 +104,11 @@ export default function Map() {
   const updateZoom = useDebouncedCallback((zoom?: number) => {
     setZoom(zoom);
   }, 100);
+
+  useEffect(() => {
+    if (!map) return;
+    updateVisibleMarkers(map);
+  }, [map, updateVisibleMarkers]);
 
   return (
     <div className="h-screen">
