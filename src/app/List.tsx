@@ -1,14 +1,22 @@
 import { alertTypeColor } from '@/lib/data';
 import { activeMarkerIdAtom, visibleMarkersAtom } from '@/lib/map-atom';
 import clsx from 'clsx';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useState } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { useEffect, useState } from 'react';
 
 export default function List() {
   const [showList, setShowList] = useState(false);
   const incidents = useAtomValue(visibleMarkersAtom);
-  const setActiveId = useSetAtom(activeMarkerIdAtom);
+  const [activeId, setActiveId] = useAtom(activeMarkerIdAtom);
 
+  useEffect(() => {
+    const element = document.getElementById(`item-${activeId}`);
+    element?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    });
+  }, [activeId]);
   return (
     <>
       <button
@@ -30,13 +38,19 @@ export default function List() {
             map
           </div>
           <div className="flex-1 overflow-auto">
-            <ul className="divide-y divide-gray-100">
+            <ul className="divide-y divide-gray-200">
               {incidents.map((incident) => {
                 const { id, alert_type, title } = incident;
+                const isActive = id === activeId;
+
                 return (
                   <li
+                    id={`item-${id}`}
                     key={id}
-                    className="p-x 5 flex cursor-pointer justify-between gap-x-6 px-5 py-5"
+                    className={clsx(
+                      `p-x 5 flex cursor-pointer justify-between gap-x-6 px-5 py-5`,
+                      isActive && 'bg-gray-50',
+                    )}
                     onClick={() => {
                       setActiveId(id);
                       setShowList(false);
